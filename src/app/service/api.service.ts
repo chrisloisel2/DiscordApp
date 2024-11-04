@@ -6,13 +6,15 @@ import { tap } from 'rxjs';
 	providedIn: 'root'
 })
 export class ApiService {
-
 	constructor(public api: HttpClient) { }
 
+	currentUser: any = undefined;
+
 	login(data: any) {
-		return this.api.post('http://localhost:3000/api/login', data).pipe(
+		return this.api.post('http://localhost:3000/user/login', data).pipe(
 			tap((data: any) => {
 				if (!data.error) {
+					this.currentUser = data;
 					localStorage.setItem('user', JSON.stringify(data));
 				}
 			})
@@ -20,6 +22,6 @@ export class ApiService {
 	}
 
 	register(data: any) {
-		return this.api.post('http://localhost:3000/api/register', data);
+		return this.api.post('http://localhost:3000/user/register', data);
 	}
 }
